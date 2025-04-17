@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  lab2
 //
-//  Created by Dias Yerlan on 23.02.2025.
+//  Created by  Zeinaddin Zurgambaev on 23.02.2025.
 //
 
 import UIKit

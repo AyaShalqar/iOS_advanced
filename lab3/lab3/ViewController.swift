@@ -82,6 +82,7 @@ struct HeroView: View {
                     
                     VStack(alignment: .leading, spacing: 5) {
                         Text("⚡ Intelligence: \(hero.powerstats.intelligence)")
+                        Text("⚡ Intelligence: fiko Intelligence")
                         Text("💪 Strength: \(hero.powerstats.strength)")
                         Text("⚡ Speed: \(hero.powerstats.speed)")
                         Text("🛡 Durability: \(hero.powerstats.durability)")

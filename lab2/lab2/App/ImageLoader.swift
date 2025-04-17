@@ -2,7 +2,7 @@
 //  ImageLoader.swift
 //  lab2
 //
-//  Created by Dias Yerlan on 24.02.2025.
+//  Created by Zeinaddin Zurgambaev  on 24.02.2025.
 //
 
 import Foundation

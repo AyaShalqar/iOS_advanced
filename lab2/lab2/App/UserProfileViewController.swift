@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  lab2
 //
-//  Created by Dias Yerlan on 23.02.2025.
+//  Created by  Zeinaddin Zurgambaev on 23.02.2025.
 //
 
 import UIKit
@@ -37,7 +37,7 @@ class ProfileManager {
             guard let self = self else { return }
             
             // Mock profile data
-            let profile = UserProfile(id: id, username: "diasyerlan", bio: "iOS Developer", profileImageURL: nil)
+            let profile = UserProfile(id: id, username: "zenaddin", bio: "iOS Developer", profileImageURL: nil)
             self.activeProfiles[id] = profile
             DispatchQueue.main.async {
                 completion(.success(profile))
