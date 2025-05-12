@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  HeroAppLab
 //
-//  Created by Aknur Seidazym on 17.03.2025.
+//  Created by Zurgambaev Zeinaddin on 17.03.2025.
 //
 import UIKit
 import SwiftUI

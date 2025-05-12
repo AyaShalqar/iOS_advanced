@@ -2,7 +2,7 @@
 //  ImagesViewModel.swift
 //  FiveImages
 //
-//  Created by Aknur Seidazym on 02.04.2025.
+//  Created by Zeinaddin Zurgambaev on 02.04.2025.
 //
 
 import Foundation

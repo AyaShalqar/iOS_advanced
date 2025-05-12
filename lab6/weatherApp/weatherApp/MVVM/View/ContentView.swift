@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  weatherApp
 //
-//  Created by Aknur Seidazym on 08.04.2025.
+//  Created by Zeinaddin Zurgambaev on 08.04.2025.
 //
 import SwiftUI
 
@@ -18,40 +18,39 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background gradient
+                // Dark blue gradient background
                 LinearGradient(
-                    gradient: Gradient(colors: [Color.blue.opacity(0.5), Color.blue.opacity(0.2)]),
-                    startPoint: .top,
-                    endPoint: .bottom
+                    gradient: Gradient(colors: [Color.black, Color.blue.opacity(0.8)]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
-                
+
                 ScrollView {
-                    VStack(spacing: 16) {
-                        // Search bar
+                    LazyVStack(spacing: 20) {
                         searchBar
-                        
-                        // Error message if any
+
                         if let errorMessage = viewModel.errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.white)
                                 .padding()
-                                .background(Color.red.opacity(0.8))
-                                .cornerRadius(10)
+                                .background(Color.red.opacity(0.9))
+                                .cornerRadius(12)
+                                .shadow(radius: 6)
                         }
-                        
-                        // Weather cards
+
                         currentWeatherCard
                         weatherDetailsCard
                         forecastCard
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.top, 10)
                 }
                 .refreshable {
                     await viewModel.refresh()
                 }
             }
-            .navigationTitle("Weather")
+            .navigationTitle("🌙 Weather")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -59,26 +58,31 @@ struct ContentView: View {
                             await viewModel.refresh()
                         }
                     } label: {
-                        Image(systemName: "arrow.clockwise")
+                        Image(systemName: "arrow.clockwise.circle.fill")
                             .imageScale(.large)
-                            .disabled(viewModel.isRefreshing)
+                            .foregroundColor(.white)
+                            .opacity(viewModel.isRefreshing ? 0.3 : 1.0)
                     }
                 }
             }
             .task {
-                // Initial data loading
                 await viewModel.loadAllWeatherData()
             }
         }
     }
-    
+
     // Search bar
     private var searchBar: some View {
-        HStack {
+        HStack(spacing: 10) {
             TextField("Enter city name", text: $searchText)
-                .padding(8)
-                .background(Color.white.opacity(0.8))
-                .cornerRadius(8)
+                .padding(12)
+                .background(Color.white.opacity(0.1))
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                )
                 .submitLabel(.search)
                 .onSubmit {
                     Task {
@@ -86,7 +90,7 @@ struct ContentView: View {
                         searchText = ""
                     }
                 }
-            
+
             Button {
                 Task {
                     await viewModel.updateCity(searchText)
@@ -94,13 +98,16 @@ struct ContentView: View {
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(.blue)
-                    .padding(8)
-                    .background(Color.white.opacity(0.8))
-                    .cornerRadius(8)
+                    .font(.system(size: 22))
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(Color.blue)
+                    .clipShape(Circle())
             }
         }
     }
+
+
     
     // Current weather card
     private var currentWeatherCard: some View {
