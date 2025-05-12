@@ -40,16 +40,18 @@ class AuthViewModel: ObservableObject {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
             let work = DispatchWorkItem {
                 if let error = error {
+                    print("❌ Firebase signUp error:", error.localizedDescription) // ← добавлено
                     self?.error = error.localizedDescription
                     return
                 }
-                
+
                 if let user = result?.user {
                     let changeRequest = user.createProfileChangeRequest()
                     changeRequest.displayName = name
                     changeRequest.commitChanges { error in
                         let innerWork = DispatchWorkItem {
                             if let error = error {
+                                print("❌ Firebase profile update error:", error.localizedDescription) // ← добавлено
                                 self?.error = error.localizedDescription
                             }
                         }

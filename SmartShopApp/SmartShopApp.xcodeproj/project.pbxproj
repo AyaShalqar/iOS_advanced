@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BD9AA4462DD28420006149C6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BD9AA4452DD28420006149C6 /* FirebaseAuth */; };
+		BD9AA4712DD28545006149C6 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = BD9AA4702DD28545006149C6 /* FirebaseCore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BD9DBD012DD1C23C00782438 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -42,6 +47,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD9AA4712DD28545006149C6 /* FirebaseCore in Frameworks */,
+				BD9AA4462DD28420006149C6 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,12 +69,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BD9AA4442DD28420006149C6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BD9DBCE72DD1C23A00782438 = {
 			isa = PBXGroup;
 			children = (
 				BD9DBCF22DD1C23A00782438 /* SmartShopApp */,
+				BD9AA4442DD28420006149C6 /* Frameworks */,
 				BD9DBCF12DD1C23A00782438 /* Products */,
-				BD9DBD342DD1C28200782438 /* Sources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,21 +93,6 @@
 				BD9DBD0A2DD1C23C00782438 /* SmartShopAppUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		BD9DBD332DD1C28200782438 /* ShopSmart */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ShopSmart;
-			sourceTree = "<group>";
-		};
-		BD9DBD342DD1C28200782438 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				BD9DBD332DD1C28200782438 /* ShopSmart */,
-			);
-			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -116,6 +115,8 @@
 			);
 			name = SmartShopApp;
 			packageProductDependencies = (
+				BD9AA4452DD28420006149C6 /* FirebaseAuth */,
+				BD9AA4702DD28545006149C6 /* FirebaseCore */,
 			);
 			productName = SmartShopApp;
 			productReference = BD9DBCF02DD1C23A00782438 /* SmartShopApp.app */;
@@ -564,6 +565,19 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD9AA4452DD28420006149C6 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD9DBD6D2DD1C5FA00782438 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		BD9AA4702DD28545006149C6 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD9DBD6D2DD1C5FA00782438 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BD9DBCE82DD1C23A00782438 /* Project object */;
 }
