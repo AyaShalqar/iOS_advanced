@@ -11,7 +11,7 @@ struct ShopSmartApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(ShoppingListViewModel(context: persistenceController.container.viewContext)) // ← вот это добавь
+                .environmentObject(ShoppingListViewModel(context: persistenceController.container.viewContext))  
         }
     }
 }

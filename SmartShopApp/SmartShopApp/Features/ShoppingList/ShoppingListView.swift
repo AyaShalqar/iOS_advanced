@@ -4,106 +4,123 @@ struct ShoppingListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject private var viewModel: ShoppingListViewModel
     @State private var showingAddProduct = false
-    @State private var showingRecommendations = false
-    
+
     init() {
         _viewModel = StateObject(wrappedValue: ShoppingListViewModel(context: PersistenceController.shared.container.viewContext))
     }
-    
+
     var body: some View {
-        List {
-            ForEach(viewModel.products) { product in
-                ProductRow(product: product)
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            withAnimation {
-                                viewModel.deleteProduct(product)
-                            }
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                        }
-                    }
-            }
-            .onMove { source, destination in
-                viewModel.moveProduct(from: source, to: destination)
-            }
-        }
-        .navigationTitle("Shopping List")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
+        VStack(spacing: 0) {
+            HStack {
+                Button(action: { }) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.orange)
+                        .frame(width: 40, height: 40)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .shadow(radius: 1)
+                }
+                Spacer()
+                Button(action: {
                     showingAddProduct = true
-                } label: {
+                }) {
                     Image(systemName: "plus")
+                        .foregroundColor(.white)
+                        .frame(width: 40, height: 40)
+                        .background(Color.orange)
+                        .cornerRadius(20)
                 }
             }
+            .padding(.horizontal)
+            .padding(.top, 10)
 
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    showingRecommendations = true
-                } label: {
-                    Image(systemName: "lightbulb")
+            Text("Shopping list 🛒")
+                .font(.title2).bold()
+                .padding(.vertical, 10)
+
+            ScrollView {
+                VStack(spacing: 16) {
+                    ForEach(viewModel.products) { product in
+                        ProductRowStyled(product: product)
+                    }
                 }
-            }
-
-            ToolbarItem(placement: .navigationBarLeading) {
-                EditButton()
-            }
-
-            ToolbarItem(placement: .bottomBar) {
-                Button("Save to History") {
-                    viewModel.markCompletedAsPurchased()
-                }
+                .padding(.horizontal)
             }
         }
-
         .sheet(isPresented: $showingAddProduct) {
             AddProductView(viewModel: viewModel)
-        }
-        .sheet(isPresented: $showingRecommendations) {
-            RecommendationsView(recommendations: viewModel.getRecommendations())
         }
     }
 }
 
-struct ProductRow: View {
+struct ProductRowStyled: View {
     let product: Product
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject private var viewModel: ShoppingListViewModel
-    
+
     init(product: Product) {
         self.product = product
         _viewModel = StateObject(wrappedValue: ShoppingListViewModel(context: PersistenceController.shared.container.viewContext))
     }
-    
+
     var body: some View {
-        HStack {
-            Button {
+        HStack(alignment: .center) {
+            Button(action: {
                 withAnimation {
                     viewModel.toggleProduct(product)
                 }
-            } label: {
-                Image(systemName: product.isCompleted ? "checkmark.circle.fill" : "circle")
+            }) {
+                Image(systemName: product.isCompleted ? "checkmark.circle.fill" : "checkmark.circle")
+                    .resizable()
+                    .frame(width: 24, height: 24)
                     .foregroundColor(product.isCompleted ? .green : .gray)
+                    .padding(10)
+                    .background(Color(product.isCompleted ? .green.opacity(0.2) : .gray.opacity(0.2)))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            
-            VStack(alignment: .leading) {
-                Text(product.name ?? "")
-                    .strikethrough(product.isCompleted)
-                
-                if let category = product.category, !category.isEmpty {
-                    Text(category)
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Category")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                Text(product.name ?? "NAME")
+                    .font(.headline)
             }
-            
             Spacer()
-            
-            Text("\(product.quantity)")
-                .foregroundColor(.gray)
+
+            HStack(spacing: 4) {
+                Button("-") {
+                    if product.quantity > 1 {
+                        product.quantity -= 1
+                        try? viewContext.save()
+                    }
+                }
+                .frame(width: 28, height: 28)
+                .background(Color(.systemGray5))
+                .cornerRadius(6)
+
+                Text("\(product.quantity)")
+                    .frame(width: 24)
+
+                Button("+") {
+                    product.quantity += 1
+                    try? viewContext.save()
+                }
+                .frame(width: 28, height: 28)
+                .background(Color(.systemGray5))
+                .cornerRadius(6)
+            }
+
+            Button(action: {
+                viewModel.deleteProduct(product)
+            }) {
+                Image(systemName: "trash")
+                    .foregroundColor(.orange)
+            }
         }
-        .padding(.vertical, 4)
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(16)
     }
 }
 
@@ -149,27 +166,3 @@ struct AddProductView: View {
         }
     }
 }
-
-
-struct RecommendationsView: View {
-    let recommendations: [String]
-    @Environment(\.dismiss) private var dismiss
-    
-    var body: some View {
-        NavigationView {
-            List(recommendations, id: \.self) { item in
-                Text(item)
-            }
-            .navigationTitle("Recommended Items")
-            .navigationBarItems(trailing: Button("Done") {
-                dismiss()
-            })
-        }
-    }
-}
-
-struct ShoppingListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ShoppingListView()
-    }
-} 

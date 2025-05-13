@@ -6,75 +6,99 @@ struct AuthView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var name = ""
-    
+
     var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                Image(systemName: "cart.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.blue)
-                
-                Text("ShopSmart")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                VStack(spacing: 15) {
-                    if isSignUp {
-                        TextField("Name", text: $name)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .autocapitalization(.words)
-                    }
-                    
-                    TextField("Email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+        VStack {
+            Spacer()
+
+            Text("SHOP SMART")
+                .font(.caption)
+                .foregroundColor(.orange)
+                .bold()
+                .padding(.bottom, 4)
+
+            Text("Your Personal\nShopping Assistant")
+                .font(.title)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+
+            Text("Smart shopping is the future of shopping.")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 32)
+
+            VStack(spacing: 16) {
+                if isSignUp {
+                    TextField("Name", text: $name)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3)))
+                        .autocapitalization(.words)
+                }
+
+                HStack {
+                    Image(systemName: "envelope")
+                    TextField("Enter your email address...", text: $email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
-                    
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    Button(action: {
-                        if isSignUp {
-                            authViewModel.signUp(email: email, password: password, name: name)
-                        } else {
-                            authViewModel.signIn(email: email, password: password)
-                        }
-                    }) {
-                        Text(isSignUp ? "Sign Up" : "Sign In")
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(10)
-                    }
-                    
-                    Button(action: {
-                        withAnimation {
-                            isSignUp.toggle()
-                        }
-                    }) {
-                        Text(isSignUp ? "Already have an account? Sign In" : "Don't have an account? Sign Up")
-                            .foregroundColor(.blue)
-                    }
                 }
-                .padding(.horizontal)
-                
-                if let error = authViewModel.error {
-                    Text(error)
-                        .foregroundColor(.red)
-                        .padding()
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3)))
+
+                HStack {
+                    Image(systemName: "lock")
+                    SecureField("Enter your password...", text: $password)
                 }
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3)))
             }
-            .padding()
+            .padding(.horizontal)
+
+            Button(action: {
+                if isSignUp {
+                    authViewModel.signUp(email: email, password: password, name: name)
+                } else {
+                    authViewModel.signIn(email: email, password: password)
+                }
+            }) {
+                Text(isSignUp ? "Sign Up" : "Sign In")
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange)
+                    .cornerRadius(12)
+                    .padding(.top, 20)
+            }
+            .padding(.horizontal)
+
+            Button(action: {
+                withAnimation {
+                    isSignUp.toggle()
+                }
+            }) {
+                HStack {
+                    Image(systemName: "arrow.right")
+                    Text(isSignUp ? "I already have an account" : "Create new account")
+                }
+                .foregroundColor(.orange)
+                .font(.subheadline)
+                .padding(.top, 12)
+            }
+
+            if let error = authViewModel.error {
+                Text(error)
+                    .foregroundColor(.red)
+                    .padding(.top, 12)
+            }
+
+            Spacer()
         }
+        .padding()
     }
 }
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthView()
-            .environmentObject(AuthViewModel())
+        AuthView().environmentObject(AuthViewModel())
     }
-} 
+}

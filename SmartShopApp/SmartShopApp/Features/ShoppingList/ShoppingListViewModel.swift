@@ -63,7 +63,7 @@ class ShoppingListViewModel: ObservableObject {
         revisedItems.move(fromOffsets: source, toOffset: destination)
         
         for (index, item) in revisedItems.enumerated() {
-            item.name = "\(index)" // This is just for ordering, we'll keep the original name
+            item.name = "\(index)" 
         }
         
         saveContext()
@@ -90,7 +90,7 @@ class ShoppingListViewModel: ObservableObject {
     
     // AI Recommendations (Mock implementation)
     func getRecommendations() -> [String] {
-        // In a real app, this would use ML to analyze purchase history
+        
         return ["Milk", "Bread", "Eggs", "Butter"]
     }
     
@@ -102,7 +102,7 @@ class ShoppingListViewModel: ObservableObject {
         history.date = Date()
         history.products = NSSet(array: completed)
 
-        // Удаляем завершённые продукты из текущего списка (если нужно)
+        
         for product in completed {
             viewContext.delete(product)
         }

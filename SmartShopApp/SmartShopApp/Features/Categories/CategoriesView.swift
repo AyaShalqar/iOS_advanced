@@ -21,7 +21,8 @@ struct CategoriesView: View {
                 Section(header: Text(category)) {
                     ForEach(groupedProducts[category] ?? []) { product in
                         NavigationLink(destination: ProductDetailView(product: product)) {
-                            ProductRow(product: product)
+                            ProductRowStyled(product: product)
+
                         }
 
                     }
