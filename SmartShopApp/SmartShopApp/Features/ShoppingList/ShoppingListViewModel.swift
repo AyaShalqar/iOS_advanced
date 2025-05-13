@@ -8,6 +8,9 @@ class ShoppingListViewModel: ObservableObject {
     @Published var newProductCategory = ""
     @Published var newProductQuantity: Int16 = 1
     @Published var error: String?
+    @Published var newProductPrice: Double = 0.0
+    @Published var newProductStore: String = ""
+    @Published var newProductImportance: Int16 = 1
     
     private let viewContext: NSManagedObjectContext
     
@@ -36,6 +39,10 @@ class ShoppingListViewModel: ObservableObject {
         product.category = newProductCategory
         product.quantity = newProductQuantity
         product.isCompleted = false
+        product.price = newProductPrice
+        product.store = newProductStore
+        product.importance = newProductImportance
+
         
         saveContext()
         resetNewProduct()
@@ -75,6 +82,10 @@ class ShoppingListViewModel: ObservableObject {
         newProductName = ""
         newProductCategory = ""
         newProductQuantity = 1
+        newProductPrice = 0.0
+        newProductStore = ""
+        newProductImportance = 1
+
     }
     
     // AI Recommendations (Mock implementation)

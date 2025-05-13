@@ -110,14 +110,29 @@ struct ProductRow: View {
 struct AddProductView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: ShoppingListViewModel
-    
+
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Product Details")) {
                     TextField("Name", text: $viewModel.newProductName)
                     TextField("Category", text: $viewModel.newProductCategory)
+                    
                     Stepper("Quantity: \(viewModel.newProductQuantity)", value: $viewModel.newProductQuantity, in: 1...99)
+                    
+                    TextField("Price", value: $viewModel.newProductPrice, format: .number)
+                        .keyboardType(.decimalPad)
+
+                    TextField("Store", text: $viewModel.newProductStore)
+
+                    VStack(alignment: .leading) {
+                        Text("Importance: \(viewModel.newProductImportance)")
+                        Slider(value: Binding(
+                            get: { Double(viewModel.newProductImportance) },
+                            set: { viewModel.newProductImportance = Int16($0) }
+                        ), in: 1...5, step: 1)
+                    }
+                    .padding(.vertical)
                 }
             }
             .navigationTitle("Add Product")
@@ -134,6 +149,7 @@ struct AddProductView: View {
         }
     }
 }
+
 
 struct RecommendationsView: View {
     let recommendations: [String]

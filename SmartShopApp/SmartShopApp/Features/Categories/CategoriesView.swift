@@ -4,7 +4,11 @@ struct CategoriesView: View {
     @EnvironmentObject var viewModel: ShoppingListViewModel
 
     var groupedProducts: [String: [Product]] {
-        Dictionary(grouping: viewModel.products) { $0.category ?? "Uncategorized" }
+        Dictionary(grouping: viewModel.products) { product in
+            let category = product.category?.trimmingCharacters(in: .whitespacesAndNewlines)
+            return (category?.isEmpty ?? true) ? "Uncategorized" : category!
+        }
+
     }
 
     var sortedCategories: [String] {
@@ -16,7 +20,10 @@ struct CategoriesView: View {
             ForEach(sortedCategories, id: \.self) { category in
                 Section(header: Text(category)) {
                     ForEach(groupedProducts[category] ?? []) { product in
-                        ProductRow(product: product)
+                        NavigationLink(destination: ProductDetailView(product: product)) {
+                            ProductRow(product: product)
+                        }
+
                     }
                 }
             }

@@ -19,19 +19,20 @@ struct MainTabView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UITabBarController {
         let tabBarController = UITabBarController()
         
-        // Shopping List Tab
+        
         let shoppingListVC = UIHostingController(rootView: ShoppingListView())
         shoppingListVC.tabBarItem = UITabBarItem(title: "Shopping List", image: UIImage(systemName: "cart"), tag: 0)
         
-        // Categories Tab
-        let categoriesVC = UIHostingController(rootView: CategoriesView())
+        
+        let categoriesVC = UIHostingController(rootView: NavigationView { CategoriesView() })
+        
         categoriesVC.tabBarItem = UITabBarItem(title: "Categories", image: UIImage(systemName: "folder"), tag: 1)
         
-        // History Tab
+        
         let historyVC = UIHostingController(rootView: HistoryView())
         historyVC.tabBarItem = UITabBarItem(title: "History", image: UIImage(systemName: "clock"), tag: 2)
         
-        // Profile Tab
+        
         let profileVC = UIHostingController(rootView: ProfileView())
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
         
