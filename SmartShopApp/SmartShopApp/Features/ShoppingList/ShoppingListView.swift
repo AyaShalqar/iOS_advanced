@@ -37,7 +37,7 @@ struct ShoppingListView: View {
                     Image(systemName: "plus")
                 }
             }
-            
+
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
                     showingRecommendations = true
@@ -45,11 +45,18 @@ struct ShoppingListView: View {
                     Image(systemName: "lightbulb")
                 }
             }
-            
+
             ToolbarItem(placement: .navigationBarLeading) {
                 EditButton()
             }
+
+            ToolbarItem(placement: .bottomBar) {
+                Button("Save to History") {
+                    viewModel.markCompletedAsPurchased()
+                }
+            }
         }
+
         .sheet(isPresented: $showingAddProduct) {
             AddProductView(viewModel: viewModel)
         }

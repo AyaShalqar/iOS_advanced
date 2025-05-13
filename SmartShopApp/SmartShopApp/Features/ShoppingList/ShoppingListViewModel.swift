@@ -82,4 +82,21 @@ class ShoppingListViewModel: ObservableObject {
         // In a real app, this would use ML to analyze purchase history
         return ["Milk", "Bread", "Eggs", "Butter"]
     }
-} 
+    
+    func markCompletedAsPurchased() {
+        let completed = products.filter { $0.isCompleted }
+        guard !completed.isEmpty else { return }
+
+        let history = PurchaseHistory(context: viewContext)
+        history.date = Date()
+        history.products = NSSet(array: completed)
+
+        // Удаляем завершённые продукты из текущего списка (если нужно)
+        for product in completed {
+            viewContext.delete(product)
+        }
+
+        saveContext()
+    }
+
+}

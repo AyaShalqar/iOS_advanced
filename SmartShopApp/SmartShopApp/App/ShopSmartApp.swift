@@ -6,14 +6,16 @@ import CoreData
 struct ShopSmartApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let persistenceController = PersistenceController.shared
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(ShoppingListViewModel(context: persistenceController.container.viewContext)) // ← вот это добавь
         }
     }
 }
+
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
